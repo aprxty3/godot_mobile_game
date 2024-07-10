@@ -1,0 +1,144 @@
+[gd_scene load_steps=16 format=3 uid="uid://cma8m27sj8ri1"]
+
+[ext_resource type="Texture2D" uid="uid://yckstoavaags" path="res://assets/sprites/bluebird-downflap.png" id="1_dbik4"]
+[ext_resource type="Script" path="res://scripts/bird.gd" id="1_lcynu"]
+[ext_resource type="Texture2D" uid="uid://lyegn8p417vd" path="res://assets/sprites/bluebird-midflap.png" id="2_thxth"]
+[ext_resource type="Texture2D" uid="uid://c3tev3pb7malf" path="res://assets/sprites/bluebird-upflap.png" id="3_yfymt"]
+[ext_resource type="Texture2D" uid="uid://dexa31icgrh1t" path="res://assets/sprites/redbird-downflap.png" id="4_60rqf"]
+[ext_resource type="Texture2D" uid="uid://djnqphp7lkd8e" path="res://assets/sprites/redbird-midflap.png" id="5_g27ou"]
+[ext_resource type="Texture2D" uid="uid://citrp0u8g5vyq" path="res://assets/sprites/redbird-upflap.png" id="6_cmrgs"]
+[ext_resource type="Texture2D" uid="uid://n5r4u4rrbr8n" path="res://assets/sprites/yellowbird-downflap.png" id="7_irfoc"]
+[ext_resource type="Texture2D" uid="uid://c1lqdg1n5ott4" path="res://assets/sprites/yellowbird-midflap.png" id="8_mvrs3"]
+[ext_resource type="Texture2D" uid="uid://b5y3ntx6dc6h3" path="res://assets/sprites/yellowbird-upflap.png" id="9_rnfqo"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_g3bet"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_dbik4")
+}, {
+"duration": 1.0,
+"texture": ExtResource("2_thxth")
+}, {
+"duration": 1.0,
+"texture": ExtResource("3_yfymt")
+}],
+"loop": true,
+"name": &"blue_bird",
+"speed": 7.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("4_60rqf")
+}, {
+"duration": 1.0,
+"texture": ExtResource("5_g27ou")
+}, {
+"duration": 1.0,
+"texture": ExtResource("6_cmrgs")
+}],
+"loop": true,
+"name": &"red_bird",
+"speed": 7.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("7_irfoc")
+}, {
+"duration": 1.0,
+"texture": ExtResource("8_mvrs3")
+}, {
+"duration": 1.0,
+"texture": ExtResource("9_rnfqo")
+}],
+"loop": true,
+"name": &"yellow_bird",
+"speed": 7.0
+}]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_3jay3"]
+radius = 35.0053
+
+[sub_resource type="Animation" id="Animation_cww58"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("AnimatedSprite2D:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(1.31888e-13, -1.01372)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("CollisionShape2D:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_18u71"]
+resource_name = "idle"
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("AnimatedSprite2D:position")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(1.31888e-13, -1.01372), Vector2(2.08165e-12, 16)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("CollisionShape2D:position")
+tracks/1/interp = 2
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(0, 0), Vector2(2.08165e-12, 16)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_itssa"]
+_data = {
+"RESET": SubResource("Animation_cww58"),
+"idle": SubResource("Animation_18u71")
+}
+
+[node name="Bird" type="Area2D"]
+position = Vector2(352, 375)
+script = ExtResource("1_lcynu")
+metadata/_edit_group_ = true
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+position = Vector2(1.31888e-13, -1.01372)
+scale = Vector2(3.14242, 3.14242)
+sprite_frames = SubResource("SpriteFrames_g3bet")
+animation = &"blue_bird"
+autoplay = "blue_bird"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_3jay3")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_itssa")
+}
+autoplay = "idle"
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]
