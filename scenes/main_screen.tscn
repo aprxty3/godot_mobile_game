@@ -1,0 +1,17 @@
+[gd_scene load_steps=3 format=3 uid="uid://ol46hm0cqkt4"]
+
+[ext_resource type="PackedScene" uid="uid://cc8lm50sbbijk" path="res://scenes/background.tscn" id="1_fpijw"]
+[ext_resource type="PackedScene" uid="uid://cma8m27sj8ri1" path="res://scenes/bird.tscn" id="2_sconi"]
+
+[node name="MainScreen" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Background" parent="." instance=ExtResource("1_fpijw")]
+
+[node name="Bird" parent="." instance=ExtResource("2_sconi")]
+position = Vector2(322, 633)
