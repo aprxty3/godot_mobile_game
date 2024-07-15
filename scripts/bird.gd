@@ -3,14 +3,18 @@ extends Area2D
 signal gameover
 
 @onready var animate_sprite = $AnimatedSprite2D
+@onready var animation_player = $AnimationPlayer
 
 const JUMP_VELOCITY = -300.0
 const ROT_SPEED = 300.0
 var velocity : Vector2 = Vector2.ZERO
 
 func _ready():
-	gravity = 500.0
 	random_bird()
+	gravity = 500.0
+	game_start(false)
+	animation_player.play("idle")
+	animate_sprite.play()
 	
 
 func random_bird():
@@ -36,3 +40,6 @@ func _process(delta):
 func _on_body_entered(body):
 	animate_sprite.stop()
 	gameover.emit()
+
+func game_start(value: bool)->void:
+	set_process(value) 

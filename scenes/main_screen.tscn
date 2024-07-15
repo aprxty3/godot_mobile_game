@@ -1,6 +1,8 @@
-[gd_scene load_steps=3 format=3 uid="uid://ol46hm0cqkt4"]
+[gd_scene load_steps=5 format=3 uid="uid://ol46hm0cqkt4"]
 
+[ext_resource type="Texture2D" uid="uid://7edbfaub2b1r" path="res://assets/sprites/background-1.png" id="1_26mr7"]
 [ext_resource type="PackedScene" uid="uid://cc8lm50sbbijk" path="res://scenes/background.tscn" id="1_fpijw"]
+[ext_resource type="Script" path="res://scripts/pipe_spawn.gd" id="2_rntam"]
 [ext_resource type="PackedScene" uid="uid://cma8m27sj8ri1" path="res://scenes/bird.tscn" id="2_sconi"]
 
 [node name="MainScreen" type="Control"]
@@ -11,7 +13,25 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+layer = -102
+
+[node name="Sprite2D" type="Sprite2D" parent="CanvasLayer"]
+position = Vector2(360, 640)
+scale = Vector2(2.45617, 2.45617)
+texture = ExtResource("1_26mr7")
+
+[node name="pipe_spawn" type="Node2D" parent="CanvasLayer"]
+position = Vector2(680, 624)
+script = ExtResource("2_rntam")
+
+[node name="Timer" type="Timer" parent="CanvasLayer/pipe_spawn"]
+wait_time = 3.0
+autostart = true
+
 [node name="Background" parent="." instance=ExtResource("1_fpijw")]
 
 [node name="Bird" parent="." instance=ExtResource("2_sconi")]
-position = Vector2(322, 633)
+position = Vector2(144, 624)
+
+[connection signal="timeout" from="CanvasLayer/pipe_spawn/Timer" to="CanvasLayer/pipe_spawn" method="_on_timer_timeout"]
